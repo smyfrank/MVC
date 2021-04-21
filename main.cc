@@ -5,6 +5,20 @@ int main() {
     //Load config file
     //drogon::app().loadConfigFile("../config.json");
     //Run HTTP framework,the method will block in the internal event loop
+    drogon::HttpAppFramework::instance()
+    .registerHandler
+    ("/list_para",
+     [=](const drogon::HttpRequestPtr &req,
+             std::function<void (const drogon::HttpResponsePtr &)> &&callback)
+     {
+        auto para=req->getParameters();
+        drogon::HttpViewData data;
+        data.insert("title", "ListParameters");
+        data.insert("parameters", para);
+        auto resp = drogon::HttpResponse::newHttpViewResponse("ListParameters.csp", data);
+        callback(resp);
+     }
+             );
     drogon::app().run();
     return 0;
 }
