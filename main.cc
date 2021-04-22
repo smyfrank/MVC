@@ -1,4 +1,5 @@
 #include <drogon/drogon.h>
+using namespace drogon;
 int main() {
     //Set HTTP listener address and port
     drogon::app().addListener("0.0.0.0",80);
@@ -19,6 +20,21 @@ int main() {
         callback(resp);
      }
              );
+
+    drogon::HttpAppFramework::instance().registerHandler(
+            "/slow",
+            [=](const HttpRequestPtr &req,
+                    std::function<void (const HttpResponsePtr &)> &&callback)
+            {
+                Json::Value json;
+                json["result"]= "ok";
+                auto resp=HttpResponse::newHttpJsonResponse(json);
+                callback(resp);
+            },
+            {Get, "TimeFilter"}
+            );
+    drogon::HttpAppFramework::instance().enableSession(1200);
+
     drogon::app().run();
     return 0;
 }
