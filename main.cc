@@ -6,6 +6,8 @@ int main() {
     //Load config file
     //drogon::app().loadConfigFile("../config.json");
     //Run HTTP framework,the method will block in the internal event loop
+
+    // register view
     drogon::HttpAppFramework::instance()
     .registerHandler
     ("/list_para",
@@ -20,7 +22,7 @@ int main() {
         callback(resp);
      }
              );
-
+    // register TimeFilter on /slow
     drogon::HttpAppFramework::instance().registerHandler(
             "/slow",
             [=](const HttpRequestPtr &req,
