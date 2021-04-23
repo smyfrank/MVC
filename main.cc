@@ -2,12 +2,12 @@
 using namespace drogon;
 int main() {
     //Set HTTP listener address and port
-    drogon::app().addListener("0.0.0.0",80);
+    //drogon::app().addListener("0.0.0.0",80);
     //Load config file
-    //drogon::app().loadConfigFile("../config.json");
+    drogon::app().loadConfigFile("../config.json");
     //Run HTTP framework,the method will block in the internal event loop
 
-    // register view
+    // define a handler using view method
     drogon::HttpAppFramework::instance()
     .registerHandler
     ("/list_para",
@@ -22,7 +22,8 @@ int main() {
         callback(resp);
      }
              );
-    // register TimeFilter on /slow
+    // define a handler using TimeFilter
+    /*
     drogon::HttpAppFramework::instance().registerHandler(
             "/slow",
             [=](const HttpRequestPtr &req,
@@ -35,6 +36,7 @@ int main() {
             },
             {Get, "TimeFilter"}
             );
+    */
     drogon::HttpAppFramework::instance().enableSession(1200);
 
     drogon::app().run();
